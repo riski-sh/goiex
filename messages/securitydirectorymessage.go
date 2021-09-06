@@ -1,7 +1,7 @@
 package messages
 
 import (
-  "fmt"
+	"fmt"
 )
 
 // SecurityDirectoryMessage is IEX's way of disseminating a full pre-market
@@ -47,6 +47,7 @@ func (r *SecurityDirectoryMessage) Symbol() string {
 
 // String converts the SecurityDirectoryMessage into a human readable packet
 // containing usefull information
-func (r *SecurityDirectoryMessage) String() string {
-  return fmt.Sprintf("%s SecurityDirectoryMessage %s", r.Timestamp.String(), r.Symbol())
+func (r *SecurityDirectoryMessage) String() (string, error) {
+	return fmt.Sprintf("%s SecurityDirectoryMessage %s", r.Timestamp.String(),
+         r.Symbol()), nil
 }

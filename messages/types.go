@@ -1,15 +1,15 @@
 package messages
 
 import (
-  "time"
+	"time"
 )
 
 // Type aliases
 type (
-	IEX_LONG      = int64
-	IEX_INT       = uint32
-	IEX_SHORT     = uint16
-	IEX_BYTE      = uint8
+	IEX_LONG  = int64
+	IEX_INT   = uint32
+	IEX_SHORT = uint16
+	IEX_BYTE  = uint8
 )
 
 // Types that should not be treated as another type but instead a
@@ -34,7 +34,6 @@ const (
 	MESSAGES_DEEP10_AUCTION_INFORMATION_MESSAGE      = 0x41
 )
 
-
 // IEX_TIMESTAMP is the number of nanoseconds since EPOCH
 type IEX_TIMESTAMP int64
 
@@ -43,11 +42,11 @@ var easternTime, _ = time.LoadLocation("America/New_York")
 // String converts the IEX_TIMESTAMP type to a time date string
 // represented in the US/Eastern time
 func (r IEX_TIMESTAMP) String() string {
-  return time.Unix(0, int64(r)).In(easternTime).Format(time.RFC3339Nano)
+	return time.Unix(0, int64(r)).In(easternTime).Format(time.RFC3339Nano)
 }
 
 // Time converts the IEX_TIMESTAMP type to a unix timestamp.
 // This assumes the IEX_TIMESTAMP is in UTC time
 func (r IEX_TIMESTAMP) Time() time.Time {
-  return time.Unix(0, int64(r))
+	return time.Unix(0, int64(r))
 }

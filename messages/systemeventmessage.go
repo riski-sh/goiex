@@ -1,7 +1,7 @@
 package messages
 
 import (
-  "fmt"
+	"fmt"
 )
 
 // Below are constants describing the possible System Event values
@@ -34,20 +34,26 @@ type SystemEventMessage struct {
 
 // String formats the SystemEventMessage into a human readable string containing
 // important information.
-func (r *SystemEventMessage) String() string {
+func (r *SystemEventMessage) String() (string, error) {
 	switch r.SystemEvent {
 	case SYSTEM_EVENT_MESSAGE_START_OF_MESSAGES:
-    return fmt.Sprintf("%s SystemEventMessage %s", r.Timestamp.String(), "SYSTEM_EVENT_MESSAGE_START_OF_MESSAGES")
+		return fmt.Sprintf("%s SystemEventMessage %s", r.Timestamp.String(),
+           "SYSTEM_EVENT_MESSAGE_START_OF_MESSAGES"), nil
 	case SYSTEM_EVENT_MESSAGE_START_OF_SYSTEM_HOURS:
-    return fmt.Sprintf("%s SystemEventMessage %s", r.Timestamp.String(), "SYSTEM_EVENT_MESSAGE_START_OF_SYSTEM_HOURS")
+		return fmt.Sprintf("%s SystemEventMessage %s", r.Timestamp.String(),
+           "SYSTEM_EVENT_MESSAGE_START_OF_SYSTEM_HOURS"), nil
 	case SYSTEM_EVENT_MESSAGE_START_OF_REGULAR_MARKET_HOURS:
-    return fmt.Sprintf("%s SystemEventMessage %s", r.Timestamp.String(), "SYSTEM_EVENT_MESSAGE_START_OF_REGULAR_MARKET_HOURS")
+		return fmt.Sprintf("%s SystemEventMessage %s", r.Timestamp.String(),
+           "SYSTEM_EVENT_MESSAGE_START_OF_REGULAR_MARKET_HOURS"), nil
 	case SYSTEM_EVENT_MESSAGE_END_OF_REGULAR_MARKET_HOURS:
-    return fmt.Sprintf("%s SystemEventMessage %s", r.Timestamp.String(), "SYSTEM_EVENT_MESSAGE_END_OF_REGULAR_MARKET_HOURS")
-  case SYSTEM_EVENT_MESSAGE_END_OF_SYSTEM_HOURS:
-    return fmt.Sprintf("%s SystemEventMessage %s", r.Timestamp.String(), "SYSTEM_EVENT_MESSAGE_END_OF_SYSTEM_HOURS")
+		return fmt.Sprintf("%s SystemEventMessage %s", r.Timestamp.String(),
+           "SYSTEM_EVENT_MESSAGE_END_OF_REGULAR_MARKET_HOURS"), nil
+	case SYSTEM_EVENT_MESSAGE_END_OF_SYSTEM_HOURS:
+		return fmt.Sprintf("%s SystemEventMessage %s", r.Timestamp.String(),
+           "SYSTEM_EVENT_MESSAGE_END_OF_SYSTEM_HOURS"), nil
 	case SYSTEM_EVENT_MESSAGE_END_OF_MESSAGES:
-    return fmt.Sprintf("%s SystemEventMessage %s", r.Timestamp.String(), "SYSTEM_EVENT_MESSAGEE_END_OF_MESSAGES")
+		return fmt.Sprintf("%s SystemEventMessage %s", r.Timestamp.String(),
+           "SYSTEM_EVENT_MESSAGEE_END_OF_MESSAGES"), nil
 	}
-	return "ERROR malformed SystemEventMessage"
+  return "", fmt.Errorf("malformed SystemEVentMessage packet")
 }

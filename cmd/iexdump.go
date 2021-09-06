@@ -2,7 +2,7 @@ package main
 
 import (
 	"flag"
-  "fmt"
+	"fmt"
 
 	. "github.com/riski-sh/goiex"
 	. "github.com/riski-sh/goiex/messages"
@@ -11,7 +11,11 @@ import (
 // SystemEventMessageHandler is the callback function for System Event Messages
 // Every SYSTEM_EVENT_MESSAGE_* will be seen throughout the trading day.
 func SystemEventMessageHandler(event SystemEventMessage) {
-	fmt.Printf("%s\n", event.String())
+  str, err := event.String()
+  if err != nil {
+    panic(err)
+  }
+  fmt.Printf("%s\n", str)
 }
 
 // SecurityDirectoryMessageHandler is the callback function for the
@@ -21,14 +25,22 @@ func SystemEventMessageHandler(event SystemEventMessage) {
 // It is safe to ignore these messages but the callback is still present due
 // to historical reasons.
 func SecurityDirectoryMessageHandler(event SecurityDirectoryMessage) {
-	fmt.Printf("%s\n", event.String())
+  str, err := event.String()
+  if err != nil {
+    panic(err)
+  }
+  fmt.Printf("%s\n", str)
 }
 
 // TradingStatusMessageHandler is the callback function for the
 // TradingStatusMessage messages. This callback is triggered when a security
 // is haulted or resumed.
 func TradingStatusMessageHandler(event TradingStatusMessage) {
-  fmt.Printf("%s\n", event.String())
+  str, err := event.String()
+  if err != nil {
+    panic(err)
+  }
+  fmt.Printf("%s\n", str)
 }
 
 // OperationalHaultStatusMessageHandler is the callback function for the
@@ -36,7 +48,19 @@ func TradingStatusMessageHandler(event TradingStatusMessage) {
 // hault on one of its securities. This does not mean a hault is happening
 // market wide.
 func OperationalHaultStatusMessageHandler(event OperationalHaultStatusMessage) {
-	fmt.Printf("%s\n", event.String())
+  str, err := event.String()
+  if err != nil {
+    panic(err)
+  }
+  fmt.Printf("%s\n", str)
+}
+
+func ShortSalePriceTestStatusMessageHandler(event ShortSalePriceTestStatusMessage) {
+  str, err := event.String()
+  if err != nil {
+    panic(err)
+  }
+  fmt.Printf("%s\n", str)
 }
 
 func main() {
@@ -48,14 +72,15 @@ func main() {
 		return
 	}
 
-  err := PlaybackDeep(*pcapstring, CallbackConfig{
+	err := PlaybackDeep(*pcapstring, CallbackConfig{
 		OnSystemEventMessage:            SystemEventMessageHandler,
 		OnSecurityDirectoryMessage:      SecurityDirectoryMessageHandler,
 		OnTradingStatusMessage:          TradingStatusMessageHandler,
 		OnOperationalHaultStatusMessage: OperationalHaultStatusMessageHandler,
-	})
+    OnShortSalePriceTestStatusMessage: ShortSalePriceTestStatusMessageHandler,
+  })
 
-  if err != nil {
-    panic(err)
-  }
+	if err != nil {
+		panic(err)
+	}
 }

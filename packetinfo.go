@@ -65,7 +65,6 @@ type MessageBlock struct {
 // CallbackConfig holds all the callbacks that are possible when communicating
 // with the IEX exchange.
 type CallbackConfig struct {
-
 	// OnSystemEventMessage callback
 	OnSystemEventMessage func(event SystemEventMessage)
 
@@ -77,6 +76,9 @@ type CallbackConfig struct {
 
 	// OnOperationalHaultStatusMessage callback
 	OnOperationalHaultStatusMessage func(event OperationalHaultStatusMessage)
+
+  // OneShortSalePriceTestStatusMessage callback
+  OnShortSalePriceTestStatusMessage func(event ShortSalePriceTestStatusMessage)
 }
 
 // Timestamp returns the SendTime of the IEXTPHeader as a nanosecond date time

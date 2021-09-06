@@ -1,7 +1,7 @@
 package messages
 
 import (
-  "fmt"
+	"fmt"
 )
 
 // Below are the operation hault statues if trades have been haulted due
@@ -37,12 +37,14 @@ func (r *OperationalHaultStatusMessage) Symbol() string {
 
 // String converts this packet into a human readable string containing
 // the important information.
-func (r *OperationalHaultStatusMessage) String() string {
+func (r *OperationalHaultStatusMessage) String() (string, error) {
 	switch r.OperationalHaultStatus {
 	case OPERATIONAL_HAULT_STATUS_NOT_HALTED:
-    return fmt.Sprintf("%s OperationalHaultStatus %s %s", r.Timestamp.String(), r.Symbol(), "OPERATIONAL_HAULT_STATUS_HAULTED")
+		return fmt.Sprintf("%s OperationalHaultStatus %s %s", r.Timestamp.String(),
+           r.Symbol(), "OPERATIONAL_HAULT_STATUS_HAULTED"), nil
 	case OPERATIONAL_HAULT_STATUS_HAULTED:
-    return fmt.Sprintf("%s OperationalHaultStatus %s %s", r.Timestamp.String(), r.Symbol(), "OPERATIONAL_HAULT_HAULTED")
+		return fmt.Sprintf("%s OperationalHaultStatus %s %s", r.Timestamp.String(),
+           r.Symbol(), "OPERATIONAL_HAULT_HAULTED"), nil
 	}
-	return "ERROR malformed OperationalHaultStatusMessage"
+	return "", fmt.Errorf("malformed OperationalHaultStatusMessage packet")
 }

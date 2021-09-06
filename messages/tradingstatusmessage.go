@@ -1,7 +1,7 @@
 package messages
 
 import (
-  "fmt"
+	"fmt"
 )
 
 // Below are the trading status that IEX will show for both IEX and non IEX
@@ -63,16 +63,20 @@ func (r *TradingStatusMessage) Reason() string {
 }
 
 // String prints out this packet in human readable format
-func (r *TradingStatusMessage) String() string {
+func (r *TradingStatusMessage) String() (string, error) {
 	switch r.TradingStatus {
 	case TRADING_STATUS_TRADING:
-    return fmt.Sprintf("%s TradingStatusMessage %s %s", r.Timestamp.String(), r.Symbol(), "TRADING_STATUS_TRADING")
+		return fmt.Sprintf("%s TradingStatusMessage %s %s", r.Timestamp.String(),
+           r.Symbol(), "TRADING_STATUS_TRADING"), nil
 	case TRADING_STATUS_PAUSED:
-    return fmt.Sprintf("%s TradingStatusMessage %s %s", r.Timestamp.String(), r.Symbol(), "TRADING_STATUS_PAUSED")
+		return fmt.Sprintf("%s TradingStatusMessage %s %s", r.Timestamp.String(),
+           r.Symbol(), "TRADING_STATUS_PAUSED"), nil
 	case TRADING_STATUS_OPERATIONAL:
-    return fmt.Sprintf("%s TradingStatusMessage %s %s", r.Timestamp.String(), r.Symbol(), "TRADING_STATUS_OPERATIONAL")
+		return fmt.Sprintf("%s TradingStatusMessage %s %s", r.Timestamp.String(),
+           r.Symbol(), "TRADING_STATUS_OPERATIONAL"), nil
 	case TRADING_STATUS_HAULTED:
-    return fmt.Sprintf("%s TradingStatusMessage %s %s", r.Timestamp.String(), r.Symbol(), "TRADING_STATUS_HAULTED")
+		return fmt.Sprintf("%s TradingStatusMessage %s %s", r.Timestamp.String(),
+           r.Symbol(), "TRADING_STATUS_HAULTED"), nil
 	}
-	return "ERROR malformed TradingStatusMessage"
+	return "", fmt.Errorf("malformed TradingStatusMessage packet")
 }

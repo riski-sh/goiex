@@ -3,7 +3,7 @@ package goiex
 import (
 	"bytes"
 	"encoding/binary"
-  "fmt"
+	"fmt"
 
 	"github.com/google/gopacket"
 	"github.com/google/gopacket/layers"
@@ -18,8 +18,8 @@ import (
 // somewhere else.
 func PlaybackDeep(file string, callbacks CallbackConfig) error {
 	if handle, err := pcap.OpenOffline(file); err != nil {
-	  return err
-  } else {
+		return err
+	} else {
 		packetSource := gopacket.NewPacketSource(handle, handle.LinkType())
 		for packet := range packetSource.Packets() {
 			// Verify that the network packet was decoded successfully.
@@ -61,35 +61,43 @@ func PlaybackDeep(file string, callbacks CallbackConfig) error {
 				switch msgBlock.MessageData[0] {
 				case MESSAGES_DEEP10_SYSTEM_EVENT_MESSAGE:
 					event := SystemEventMessage{}
-          err := binary.Read(messageDataBuff, binary.LittleEndian, &event)
+					err := binary.Read(messageDataBuff, binary.LittleEndian, &event)
 					if err != nil {
-            return err
-          }
-          callbacks.OnSystemEventMessage(event)
+						return err
+					}
+					callbacks.OnSystemEventMessage(event)
 					break
 				case MESSAGES_DEEP10_SECURITY_DIRECTORY_MESSAGE:
 					event := SecurityDirectoryMessage{}
-          err := binary.Read(messageDataBuff, binary.LittleEndian, &event)
+					err := binary.Read(messageDataBuff, binary.LittleEndian, &event)
 					if err != nil {
-            return err
-          }
-          callbacks.OnSecurityDirectoryMessage(event)
+						return err
+					}
+					callbacks.OnSecurityDirectoryMessage(event)
 					break
 				case MESSAGES_DEEP10_TRADING_STATUS_MESSAGE:
 					event := TradingStatusMessage{}
 					err := binary.Read(messageDataBuff, binary.LittleEndian, &event)
 					if err != nil {
-            return err
-          }
-          callbacks.OnTradingStatusMessage(event)
+						return err
+					}
+					callbacks.OnTradingStatusMessage(event)
 					break
 				case MESSAGES_DEEP10_OPERATIONAL_HAULT_STATUS_MESSAGE:
 					event := OperationalHaultStatusMessage{}
-          err := binary.Read(messageDataBuff, binary.LittleEndian, &event)
+					err := binary.Read(messageDataBuff, binary.LittleEndian, &event)
 					if err != nil {
-            return err
-          }
-          callbacks.OnOperationalHaultStatusMessage(event)
+						return err
+					}
+					callbacks.OnOperationalHaultStatusMessage(event)
+					break
+        case MESSAGES_DEEP10_SHORT_SALE_TEST_STATUS_MESSAGE:
+					event := ShortSalePriceTestStatusMessage{}
+					err := binary.Read(messageDataBuff, binary.LittleEndian, &event)
+					if err != nil {
+						return err
+					}
+					callbacks.OnShortSalePriceTestStatusMessage(event)
 					break
 				}
 				messagesRead += 1
@@ -100,5 +108,5 @@ func PlaybackDeep(file string, callbacks CallbackConfig) error {
 			}
 		}
 	}
-  return nil
+	return nil
 }
