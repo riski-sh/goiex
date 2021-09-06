@@ -3,8 +3,7 @@ package goiex
 import (
 	"bytes"
 	"encoding/binary"
-	"log"
-	"os"
+  "fmt"
 
 	"github.com/google/gopacket"
 	"github.com/google/gopacket/layers"
@@ -12,29 +11,20 @@ import (
 	. "github.com/riski-sh/goiex/messages"
 )
 
-const logOptions int = log.Ldate | log.Lmicroseconds | log.Lshortfile | log.LUTC
-
-var (
-	logInfo *log.Logger = log.New(os.Stderr, "INFO\t", logOptions)
-	logWarn *log.Logger = log.New(os.Stderr, "WARN\t", logOptions)
-	logErr  *log.Logger = log.New(os.Stderr, "ERROR\t", logOptions)
-)
-
 // Playback reads an IEX deep pcap file and calls the appropriate event
 // on event functions. Playback takes a file variable which is the relative
 // path to the pcap file to read. PlaybackDeep also requires the
 // callbackconfig structure in order to dispatch events to be processed
 // somewhere else.
-func PlaybackDeep(file string, callbacks CallbackConfig) {
+func PlaybackDeep(file string, callbacks CallbackConfig) error {
 	if handle, err := pcap.OpenOffline(file); err != nil {
-		panic(err)
-	} else {
+	  return err
+  } else {
 		packetSource := gopacket.NewPacketSource(handle, handle.LinkType())
 		for packet := range packetSource.Packets() {
 			// Verify that the network packet was decoded successfully.
 			if packet.ErrorLayer() != nil {
-				logWarn.Printf("%+v\n", packet.ErrorLayer().Error())
-				continue
+				return packet.ErrorLayer().Error()
 			}
 
 			payload := packet.Layer(layers.LayerTypeUDP).LayerPayload()
@@ -43,8 +33,7 @@ func PlaybackDeep(file string, callbacks CallbackConfig) {
 			err := binary.Read(bytes.NewBuffer(payload[:40]), binary.LittleEndian, &header)
 
 			if err != nil {
-				logErr.Printf("%+v", err)
-				continue
+				return err
 			}
 
 			// Check if the message count and payload length are zero if they are
@@ -72,34 +61,44 @@ func PlaybackDeep(file string, callbacks CallbackConfig) {
 				switch msgBlock.MessageData[0] {
 				case MESSAGES_DEEP10_SYSTEM_EVENT_MESSAGE:
 					event := SystemEventMessage{}
-					binary.Read(messageDataBuff, binary.LittleEndian, &event)
-					callbacks.OnSystemEventMessage(event)
+          err := binary.Read(messageDataBuff, binary.LittleEndian, &event)
+					if err != nil {
+            return err
+          }
+          callbacks.OnSystemEventMessage(event)
 					break
 				case MESSAGES_DEEP10_SECURITY_DIRECTORY_MESSAGE:
 					event := SecurityDirectoryMessage{}
-					binary.Read(messageDataBuff, binary.LittleEndian, &event)
-					callbacks.OnSecurityDirectoryMessage(event)
+          err := binary.Read(messageDataBuff, binary.LittleEndian, &event)
+					if err != nil {
+            return err
+          }
+          callbacks.OnSecurityDirectoryMessage(event)
 					break
 				case MESSAGES_DEEP10_TRADING_STATUS_MESSAGE:
 					event := TradingStatusMessage{}
 					err := binary.Read(messageDataBuff, binary.LittleEndian, &event)
 					if err != nil {
-						logErr.Panicf("%+v", err)
-					}
-					callbacks.OnTradingStatusMessage(event)
+            return err
+          }
+          callbacks.OnTradingStatusMessage(event)
 					break
 				case MESSAGES_DEEP10_OPERATIONAL_HAULT_STATUS_MESSAGE:
 					event := OperationalHaultStatusMessage{}
-					binary.Read(messageDataBuff, binary.LittleEndian, &event)
-					callbacks.OnOperationalHaultStatusMessage(event)
+          err := binary.Read(messageDataBuff, binary.LittleEndian, &event)
+					if err != nil {
+            return err
+          }
+          callbacks.OnOperationalHaultStatusMessage(event)
 					break
 				}
 				messagesRead += 1
 			}
 
 			if packetStride-40 != header.PayloadLength {
-				logErr.Fatalf("expected to read %d bytes but only read %d", packetStride-40, header.PayloadLength)
+				return fmt.Errorf("expected to read %d bytes but only read %d", packetStride-40, header.PayloadLength)
 			}
 		}
 	}
+  return nil
 }
