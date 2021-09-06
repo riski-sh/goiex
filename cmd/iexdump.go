@@ -48,10 +48,14 @@ func main() {
 		return
 	}
 
-	PlaybackDeep(*pcapstring, CallbackConfig{
+  err := PlaybackDeep(*pcapstring, CallbackConfig{
 		OnSystemEventMessage:            SystemEventMessageHandler,
 		OnSecurityDirectoryMessage:      SecurityDirectoryMessageHandler,
 		OnTradingStatusMessage:          TradingStatusMessageHandler,
 		OnOperationalHaultStatusMessage: OperationalHaultStatusMessageHandler,
 	})
+
+  if err != nil {
+    panic(err)
+  }
 }
