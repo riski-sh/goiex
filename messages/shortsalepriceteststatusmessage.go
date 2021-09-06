@@ -62,5 +62,5 @@ func (r *ShortSalePriceTestStatusMessage) String() (string, error) {
 		return fmt.Sprintf("%s ShortSalePriceTestMessage %s %s", r.Timestamp.String(),
 			r.Symbol(), "SHORT_SALE_PRICE_TEST_STATUS_IN_EFFECT"), nil
 	}
-	return "", fmt.Errorf("%s", "malformed ShortSalePriceTestStatusMessage package")
+	return "", fmt.Errorf("malformed ShortSalePriceTestStatusMessage package, %+v", r)
 }

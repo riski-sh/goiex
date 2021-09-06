@@ -79,6 +79,9 @@ type CallbackConfig struct {
 
   // OneShortSalePriceTestStatusMessage callback
   OnShortSalePriceTestStatusMessage func(event ShortSalePriceTestStatusMessage)
+
+  // OnSecurityEventMessage callback
+  OnSecurityEventMessage func(event SecurityEventMessage)
 }
 
 // Timestamp returns the SendTime of the IEXTPHeader as a nanosecond date time

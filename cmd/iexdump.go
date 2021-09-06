@@ -55,7 +55,20 @@ func OperationalHaultStatusMessageHandler(event OperationalHaultStatusMessage) {
   fmt.Printf("%s\n", str)
 }
 
+// ShortSalePriceTestStatusMessageHandler is a callback for when a security
+// enters or exists a short trading hault. Read more about the test message
+// and why it is required in the ShortSalePriceTestStatusMessage documentation.
 func ShortSalePriceTestStatusMessageHandler(event ShortSalePriceTestStatusMessage) {
+  str, err := event.String()
+  if err != nil {
+    panic(err)
+  }
+  fmt.Printf("%s\n", str)
+}
+
+// SecurityEventMessageHandler is a callback for when the opening or closing
+// process of a security is completed.
+func SecurityEventMessageHandler(event SecurityEventMessage) {
   str, err := event.String()
   if err != nil {
     panic(err)
@@ -78,6 +91,7 @@ func main() {
 		OnTradingStatusMessage:          TradingStatusMessageHandler,
 		OnOperationalHaultStatusMessage: OperationalHaultStatusMessageHandler,
     OnShortSalePriceTestStatusMessage: ShortSalePriceTestStatusMessageHandler,
+    OnSecurityEventMessage: SecurityEventMessageHandler,
   })
 
 	if err != nil {

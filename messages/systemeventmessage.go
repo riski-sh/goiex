@@ -55,5 +55,5 @@ func (r *SystemEventMessage) String() (string, error) {
 		return fmt.Sprintf("%s SystemEventMessage %s", r.Timestamp.String(),
            "SYSTEM_EVENT_MESSAGEE_END_OF_MESSAGES"), nil
 	}
-  return "", fmt.Errorf("malformed SystemEVentMessage packet")
+  return "", fmt.Errorf("malformed SystemEVentMessage packet, %+v", r)
 }

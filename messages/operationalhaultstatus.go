@@ -46,5 +46,5 @@ func (r *OperationalHaultStatusMessage) String() (string, error) {
 		return fmt.Sprintf("%s OperationalHaultStatus %s %s", r.Timestamp.String(),
            r.Symbol(), "OPERATIONAL_HAULT_HAULTED"), nil
 	}
-	return "", fmt.Errorf("malformed OperationalHaultStatusMessage packet")
+	return "", fmt.Errorf("malformed OperationalHaultStatusMessage packet, %+v", r)
 }

@@ -78,5 +78,5 @@ func (r *TradingStatusMessage) String() (string, error) {
 		return fmt.Sprintf("%s TradingStatusMessage %s %s", r.Timestamp.String(),
            r.Symbol(), "TRADING_STATUS_HAULTED"), nil
 	}
-	return "", fmt.Errorf("malformed TradingStatusMessage packet")
+	return "", fmt.Errorf("malformed TradingStatusMessage packet, %+v", r)
 }
