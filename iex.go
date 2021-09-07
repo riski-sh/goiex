@@ -117,6 +117,14 @@ func PlaybackDeep(file string, callbacks CallbackConfig) error {
 					}
 					callbacks.OnPriceLevelUpdateMessage(event)
 					break
+				case MESSAGES_DEEP10_TRADE_REPORT_MESSAGE:
+					event := TradeReportMessage{}
+					err := binary.Read(messageDataBuff, binary.LittleEndian, &event)
+					if err != nil {
+						return err
+					}
+					callbacks.OnTradeReportMessage(event)
+					break
 				}
 				messagesRead += 1
 			}
