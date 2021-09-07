@@ -41,10 +41,10 @@ func (r *OperationalHaultStatusMessage) String() (string, error) {
 	switch r.OperationalHaultStatus {
 	case OPERATIONAL_HAULT_STATUS_NOT_HALTED:
 		return fmt.Sprintf("%s OperationalHaultStatus %s %s", r.Timestamp.String(),
-           r.Symbol(), "OPERATIONAL_HAULT_STATUS_HAULTED"), nil
+			r.Symbol(), "OPERATIONAL_HAULT_STATUS_HAULTED"), nil
 	case OPERATIONAL_HAULT_STATUS_HAULTED:
 		return fmt.Sprintf("%s OperationalHaultStatus %s %s", r.Timestamp.String(),
-           r.Symbol(), "OPERATIONAL_HAULT_HAULTED"), nil
+			r.Symbol(), "OPERATIONAL_HAULT_HAULTED"), nil
 	}
 	return "", fmt.Errorf("malformed OperationalHaultStatusMessage packet, %+v", r)
 }

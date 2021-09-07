@@ -49,5 +49,5 @@ func (r *SecurityDirectoryMessage) Symbol() string {
 // containing usefull information
 func (r *SecurityDirectoryMessage) String() (string, error) {
 	return fmt.Sprintf("%s SecurityDirectoryMessage %s", r.Timestamp.String(),
-         r.Symbol()), nil
+		r.Symbol()), nil
 }

@@ -12,12 +12,6 @@ type (
 	IEX_BYTE  = uint8
 )
 
-// Types that should not be treated as another type but instead a
-// unique type.
-type (
-	IEX_PRICE int64
-)
-
 // Below are constants of the DEEP10 message types
 const (
 	MESSAGES_DEEP10_SYSTEM_EVENT_MESSAGE             = 0x53
@@ -50,3 +44,7 @@ func (r IEX_TIMESTAMP) String() string {
 func (r IEX_TIMESTAMP) Time() time.Time {
 	return time.Unix(0, int64(r))
 }
+
+// IEX_PRICE is the price represented as a fixed-point number with 4 digits to
+// the right of an implied decimal point
+type IEX_PRICE int64

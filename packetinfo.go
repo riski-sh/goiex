@@ -77,11 +77,14 @@ type CallbackConfig struct {
 	// OnOperationalHaultStatusMessage callback
 	OnOperationalHaultStatusMessage func(event OperationalHaultStatusMessage)
 
-  // OneShortSalePriceTestStatusMessage callback
-  OnShortSalePriceTestStatusMessage func(event ShortSalePriceTestStatusMessage)
+	// OneShortSalePriceTestStatusMessage callback
+	OnShortSalePriceTestStatusMessage func(event ShortSalePriceTestStatusMessage)
 
-  // OnSecurityEventMessage callback
-  OnSecurityEventMessage func(event SecurityEventMessage)
+	// OnSecurityEventMessage callback
+	OnSecurityEventMessage func(event SecurityEventMessage)
+
+	// OnPriceLevelUpdateMessage callback
+	OnPriceLevelUpdateMessage func(event PriceLevelUpdateMessage)
 }
 
 // Timestamp returns the SendTime of the IEXTPHeader as a nanosecond date time
