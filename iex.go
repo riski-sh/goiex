@@ -117,13 +117,20 @@ func PlaybackDeep(file string, callbacks CallbackConfig) error {
 						return err
 					}
 					callbacks.OnTradeReportMessage(event)
-        case MESSAGES_DEEP10_OFFICIAL_PRICE_MESSAGE:
+				case MESSAGES_DEEP10_OFFICIAL_PRICE_MESSAGE:
 					event := OfficialPriceMessage{}
 					err := binary.Read(messageDataBuff, binary.LittleEndian, &event)
 					if err != nil {
 						return err
 					}
 					callbacks.OnOfficialPriceMessage(event)
+				case MESSAGES_DEEP10_TRADE_BREAK_MESSAGE:
+					event := TradeBreakMessage{}
+					err := binary.Read(messageDataBuff, binary.LittleEndian, &event)
+					if err != nil {
+						return err
+					}
+					callbacks.OnTradeBreakMessage(event)
 				}
 				messagesRead += 1
 			}
