@@ -99,6 +99,16 @@ func TradeReportMessageHandler(event TradeReportMessage) {
 	fmt.Printf("%s\n", str)
 }
 
+// TradeReportMessageHandler is a callback for when a trade is filled, partially
+// or fully on the IEX exchange.
+func OfficialPriceMessageHandler(event OfficialPriceMessage) {
+	str, err := event.String()
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("%s\n", str)
+}
+
 func main() {
 	pcapstring := flag.String("pcapdeep", "", "specify the pcap representing a DEEP IEX pcap dump")
 	flag.Parse()
@@ -117,6 +127,7 @@ func main() {
 		OnSecurityEventMessage:            SecurityEventMessageHandler,
 		OnPriceLevelUpdateMessage:         PriceLevelUpdateMessageHandler,
 		OnTradeReportMessage:              TradeReportMessageHandler,
+    OnOfficialPriceMessage:            OfficialPriceMessageHandler,
 	})
 
 	if err != nil {

@@ -66,7 +66,6 @@ func PlaybackDeep(file string, callbacks CallbackConfig) error {
 						return err
 					}
 					callbacks.OnSystemEventMessage(event)
-					break
 				case MESSAGES_DEEP10_SECURITY_DIRECTORY_MESSAGE:
 					event := SecurityDirectoryMessage{}
 					err := binary.Read(messageDataBuff, binary.LittleEndian, &event)
@@ -74,7 +73,6 @@ func PlaybackDeep(file string, callbacks CallbackConfig) error {
 						return err
 					}
 					callbacks.OnSecurityDirectoryMessage(event)
-					break
 				case MESSAGES_DEEP10_TRADING_STATUS_MESSAGE:
 					event := TradingStatusMessage{}
 					err := binary.Read(messageDataBuff, binary.LittleEndian, &event)
@@ -82,7 +80,6 @@ func PlaybackDeep(file string, callbacks CallbackConfig) error {
 						return err
 					}
 					callbacks.OnTradingStatusMessage(event)
-					break
 				case MESSAGES_DEEP10_OPERATIONAL_HAULT_STATUS_MESSAGE:
 					event := OperationalHaultStatusMessage{}
 					err := binary.Read(messageDataBuff, binary.LittleEndian, &event)
@@ -90,7 +87,6 @@ func PlaybackDeep(file string, callbacks CallbackConfig) error {
 						return err
 					}
 					callbacks.OnOperationalHaultStatusMessage(event)
-					break
 				case MESSAGES_DEEP10_SHORT_SALE_TEST_STATUS_MESSAGE:
 					event := ShortSalePriceTestStatusMessage{}
 					err := binary.Read(messageDataBuff, binary.LittleEndian, &event)
@@ -98,7 +94,6 @@ func PlaybackDeep(file string, callbacks CallbackConfig) error {
 						return err
 					}
 					callbacks.OnShortSalePriceTestStatusMessage(event)
-					break
 				case MESSAGES_DEEP10_SECURITY_EVENT_MESSAGE:
 					event := SecurityEventMessage{}
 					err := binary.Read(messageDataBuff, binary.LittleEndian, &event)
@@ -106,7 +101,6 @@ func PlaybackDeep(file string, callbacks CallbackConfig) error {
 						return err
 					}
 					callbacks.OnSecurityEventMessage(event)
-					break
 				case MESSAGES_DEEP10_PRICE_LEVEL_UPDATE_MESSAGE_BUY:
 					fallthrough
 				case MESSAGES_DEEP10_PRICE_LEVEL_UPDATE_MESSAGE_SELL:
@@ -116,7 +110,6 @@ func PlaybackDeep(file string, callbacks CallbackConfig) error {
 						return err
 					}
 					callbacks.OnPriceLevelUpdateMessage(event)
-					break
 				case MESSAGES_DEEP10_TRADE_REPORT_MESSAGE:
 					event := TradeReportMessage{}
 					err := binary.Read(messageDataBuff, binary.LittleEndian, &event)
@@ -124,7 +117,13 @@ func PlaybackDeep(file string, callbacks CallbackConfig) error {
 						return err
 					}
 					callbacks.OnTradeReportMessage(event)
-					break
+        case MESSAGES_DEEP10_OFFICIAL_PRICE_MESSAGE:
+					event := OfficialPriceMessage{}
+					err := binary.Read(messageDataBuff, binary.LittleEndian, &event)
+					if err != nil {
+						return err
+					}
+					callbacks.OnOfficialPriceMessage(event)
 				}
 				messagesRead += 1
 			}

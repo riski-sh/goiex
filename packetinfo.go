@@ -88,6 +88,9 @@ type CallbackConfig struct {
 
 	// OnTradeReportMessage callback
 	OnTradeReportMessage func(event TradeReportMessage)
+
+  // OnOfficialPriceMessage callback
+  OnOfficialPriceMessage func(event OfficialPriceMessage)
 }
 
 // Timestamp returns the SendTime of the IEXTPHeader as a nanosecond date time
